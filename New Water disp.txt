@@ -1,0 +1,103 @@
+	
+#include<LiquidCrystal.h>
+LiquidCrystal lcd(7,6,5,4,3,2);
+int sensor=A0;
+int relay = A5;
+int ir =A3;
+
+
+int irState=0;
+int sensorState=0;
+
+
+void setup() {
+  // put your setup code here, to run once:
+lcd.begin(16,2);
+pinMode(sensor,INPUT);
+pinMode(relay,OUTPUT);;
+
+lcd.setCursor(0,0);
+lcd.print("   COIN BASED        ");
+Serial.begin(9600);
+lcd.setCursor(0,1);
+lcd.print("WATER DISPENSERY          ");
+delay(1000);
+}
+
+void loop()
+{
+  digitalWrite(relay,HIGH);
+  irState=digitalRead(ir);
+  lcd.setCursor(0,0);
+  lcd.print("  PLACE BOTTLE       ");
+  
+  lcd.setCursor(0,1);
+lcd.print("                    ");
+  Serial.println(irState);
+
+  while(irState==HIGH)
+  { 
+       irState=digitalRead(ir);
+     
+
+}
+lcd.setCursor(0,0);
+ lcd.print("  PLEASE INSERT       ");
+ lcd.setCursor(0,1);
+lcd.print("      COIN                ");
+   sensorState=digitalRead(sensor); 
+   Serial.println(sensorState); 
+    while(sensorState==LOW)
+  { 
+       sensorState=digitalRead(sensor);
+     
+
+}
+
+   if(sensorState==HIGH)
+    {
+      lcd.setCursor(0,0);
+lcd.print("  PLEASE WAIT        ");
+lcd.setCursor(0,1);
+lcd.print("                 ");
+delay(800);
+lcd.setCursor(0,1);
+lcd.print("WATER DELEVERING          ");
+digitalWrite(relay,LOW);
+delay(10000);   // water delevering time
+    }
+     
+else if(sensorState==LOW)
+{
+  lcd.setCursor(0,0);
+lcd.print("PLEASE INSERT COIN  ");
+
+
+digitalWrite(relay,HIGH);
+      }
+   
+  lcd.setCursor(0,0);
+  lcd.print("    THANKYOU      ");
+  
+  lcd.setCursor(0,1);
+lcd.print("   SAVE WATER      ");
+delay(2000);
+  
+
+//       digitalWrite(relay,LOW);
+//       digitalWrite(buzz,HIGH); 
+// lcd.setCursor(0,0);
+// lcd.print("    THANKYOU    ");
+//   lcd.setCursor(0,1);
+// lcd.print("                    ");
+    
+//     delay(2000);
+
+}
+  
+   
+  
+  
+       
+  
+
